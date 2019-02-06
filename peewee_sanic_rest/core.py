@@ -1,4 +1,6 @@
+import asyncio
 import logging
+import random
 
 from sanic.exceptions import abort, InvalidUsage
 from sanic.response import json
@@ -43,6 +45,7 @@ class ListModelMixin(object):
         queryset = self.get_queryset(request)
         page, limit = self.get_page_and_limit(request)
         paginated_queryset = queryset.paginate(page, limit)
+        await asyncio.sleep(random.random() * 10)
         objects = await self.manager.execute(paginated_queryset)
         results = []
         for o in objects:
@@ -72,6 +75,7 @@ class CreateModelMixin(object):
 class RetrieveModelMixin(object):
 
     async def retrieve(self, request, id):
+        await asyncio.sleep(random.random() * 10)
         obj = await self.get_object(request, id)
         return json(await self.serialize(obj))
 
