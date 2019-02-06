@@ -39,6 +39,7 @@ class ListModelMixin(object):
             raise InvalidUsage("Page and limit parameters should be a number.")
 
     async def get_total(self, request, queryset):
+        await asyncio.sleep(random.random() * 10)
         return await self.manager.count(queryset)
 
     async def list(self, request):
